@@ -1,0 +1,26 @@
+{
+  "name": "cursor-control-proxy",
+  "version": "1.0.0",
+  "description": "Load any website in a controlled iframe and drive it with an on-screen virtual cursor that emits real mouse events — built to work around touch-control bugs on touch devices.",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "proxy",
+    "iframe",
+    "virtual-cursor",
+    "touch",
+    "accessibility"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "cheerio": "^1.0.0",
+    "express": "^4.21.2"
+  }
+}

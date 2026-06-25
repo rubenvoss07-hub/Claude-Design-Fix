@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Cursor Control — demo target</title>
+    <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        margin: 0;
+        color: #1b2030;
+        background: #f5f7fb;
+      }
+      header {
+        background: linear-gradient(135deg, #5b8cff, #3a6df0);
+        color: #fff;
+        padding: 28px 24px;
+      }
+      header h1 {
+        margin: 0 0 4px;
+        font-size: 22px;
+      }
+      header p {
+        margin: 0;
+        opacity: 0.9;
+        font-size: 14px;
+      }
+      main {
+        max-width: 760px;
+        margin: 0 auto;
+        padding: 24px;
+      }
+      .card {
+        background: #fff;
+        border: 1px solid #e3e8f2;
+        border-radius: 14px;
+        padding: 20px;
+        margin-bottom: 18px;
+        box-shadow: 0 1px 3px rgba(20, 30, 60, 0.05);
+      }
+      .card h2 {
+        margin: 0 0 12px;
+        font-size: 16px;
+      }
+      button {
+        font: inherit;
+        padding: 10px 16px;
+        border-radius: 9px;
+        border: 1px solid #cfd8ea;
+        background: #eef2fb;
+        cursor: pointer;
+      }
+      button:hover {
+        background: #e1e8f7;
+      }
+      .primary {
+        background: #3a6df0;
+        color: #fff;
+        border-color: #3a6df0;
+      }
+      .count {
+        font-size: 28px;
+        font-weight: 700;
+        margin-left: 12px;
+        vertical-align: middle;
+      }
+      input[type="text"] {
+        font: inherit;
+        padding: 10px 12px;
+        border-radius: 9px;
+        border: 1px solid #cfd8ea;
+        width: 100%;
+        box-sizing: border-box;
+      }
+      .hoverbox {
+        padding: 22px;
+        text-align: center;
+        border-radius: 10px;
+        background: #eef2fb;
+        transition: background 0.15s ease, color 0.15s ease;
+      }
+      .hoverbox:hover {
+        background: #3a6df0;
+        color: #fff;
+      }
+      .scrollarea {
+        height: 160px;
+        overflow: auto;
+        border: 1px solid #e3e8f2;
+        border-radius: 10px;
+        padding: 10px;
+        background: #fbfcfe;
+      }
+      .scrollarea div {
+        padding: 8px;
+        border-bottom: 1px dashed #e3e8f2;
+      }
+      .ctxmenu {
+        padding: 22px;
+        text-align: center;
+        border-radius: 10px;
+        background: #fff4e5;
+        border: 1px dashed #ffb547;
+      }
+      .log {
+        font-family: ui-monospace, Menlo, Consolas, monospace;
+        font-size: 12px;
+        background: #0f1117;
+        color: #9be8c0;
+        border-radius: 10px;
+        padding: 12px;
+        min-height: 40px;
+        white-space: pre-wrap;
+      }
+      a {
+        color: #3a6df0;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Demo target page</h1>
+      <p>Use the virtual cursor to interact with everything below.</p>
+    </header>
+    <main>
+      <div class="card">
+        <h2>Click</h2>
+        <button id="clickme" class="primary">Click me</button>
+        <span class="count" id="count">0</span>
+      </div>
+
+      <div class="card">
+        <h2>Type</h2>
+        <input id="text" type="text" placeholder="Click here, then type…" />
+        <p>You typed: <strong id="echo">(nothing yet)</strong></p>
+      </div>
+
+      <div class="card">
+        <h2>Hover</h2>
+        <div class="hoverbox" id="hoverbox">Hover the cursor over me</div>
+      </div>
+
+      <div class="card">
+        <h2>Scroll</h2>
+        <div class="scrollarea" id="scrollarea">
+          <div>Row 1</div><div>Row 2</div><div>Row 3</div><div>Row 4</div>
+          <div>Row 5</div><div>Row 6</div><div>Row 7</div><div>Row 8</div>
+          <div>Row 9</div><div>Row 10</div><div>Row 11</div><div>Row 12</div>
+          <div>Row 13</div><div>Row 14</div><div>Row 15</div><div>Row 16</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Right-click</h2>
+        <div class="ctxmenu" id="ctxmenu">Right-click me</div>
+      </div>
+
+      <div class="card">
+        <h2>Navigate (in-iframe)</h2>
+        <p><a href="/demo.html?page=2">Go to page 2 (same page, ?page=2)</a></p>
+      </div>
+
+      <div class="card">
+        <h2>Event log</h2>
+        <div class="log" id="log">waiting…</div>
+      </div>
+    </main>
+
+    <script>
+      var logEl = document.getElementById('log');
+      var lines = [];
+      function log(msg) {
+        lines.unshift(msg);
+        lines = lines.slice(0, 8);
+        logEl.textContent = lines.join('\n');
+      }
+      var count = 0;
+      document.getElementById('clickme').addEventListener('click', function () {
+        count++;
+        document.getElementById('count').textContent = count;
+        log('click -> count ' + count);
+      });
+      document.getElementById('text').addEventListener('input', function (e) {
+        document.getElementById('echo').textContent = e.target.value || '(nothing yet)';
+      });
+      document.getElementById('hoverbox').addEventListener('mouseenter', function () {
+        log('hover enter');
+      });
+      document.getElementById('ctxmenu').addEventListener('contextmenu', function (e) {
+        e.preventDefault();
+        log('contextmenu (right-click)');
+        this.textContent = 'Right-click received!';
+      });
+      document.getElementById('scrollarea').addEventListener('scroll', function () {
+        log('scrolled to ' + Math.round(this.scrollTop) + 'px');
+      });
+      // When viewed through the cursor-control proxy, our own ?page=2 lives
+      // inside the proxy's ?url= parameter, so look there too.
+      function realParams() {
+        var sp = new URLSearchParams(location.search);
+        var real = sp.get('url');
+        if (real) {
+          try {
+            return new URL(real).searchParams;
+          } catch (e) {}
+        }
+        return sp;
+      }
+      var params = realParams();
+      if (params.get('page') === '2') {
+        log('navigated to page 2 OK');
+        document.querySelector('header h1').textContent = 'Demo target page — PAGE 2';
+      }
+      log('page ready');
+    </script>
+  </body>
+</html>
