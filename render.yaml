@@ -4,8 +4,8 @@
 # Render builds it, runs it, and gives you a public HTTPS URL like
 # https://cursor-control.onrender.com that you can open on your iPad.
 #
-# Strongly recommended for a public URL: set BASIC_AUTH_USER / BASIC_AUTH_PASS
-# (uncomment below) so it is not an open proxy.
+# At deploy time Render prompts you to choose BASIC_AUTH_USER / BASIC_AUTH_PASS
+# (the login you'll use on your iPad) so this is never left as an open proxy.
 services:
   - type: web
     name: cursor-control
@@ -18,7 +18,10 @@ services:
     envVars:
       - key: NODE_VERSION
         value: "22"
-      # - key: BASIC_AUTH_USER
-      #   sync: false
-      # - key: BASIC_AUTH_PASS
-      #   sync: false
+      # Render will prompt you to choose these at deploy time. Pick any
+      # username/password — that's what you'll enter on your iPad to log in.
+      # (Leave both blank only if you intentionally want no password.)
+      - key: BASIC_AUTH_USER
+        sync: false
+      - key: BASIC_AUTH_PASS
+        sync: false

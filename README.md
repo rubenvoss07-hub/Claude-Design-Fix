@@ -12,6 +12,13 @@ site behaves the way it would under a desktop mouse.
 
 ![Cursor Control](docs/screenshot.png)
 
+**Use it on your iPad in a couple of minutes:**
+
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/rubenvoss07-hub/Claude-Design-Fix)
+
+Click the button, choose a login when prompted, and open the resulting
+`https://…onrender.com` URL in Safari. (See [Open it on your iPad](#open-it-on-your-ipad-or-any-phonetablet) for details and other options.)
+
 ---
 
 ## How it works
