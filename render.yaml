@@ -1,0 +1,24 @@
+# One-click deploy to Render (https://render.com).
+#
+# In the Render dashboard:  New +  ->  Blueprint  ->  connect this repo.
+# Render builds it, runs it, and gives you a public HTTPS URL like
+# https://cursor-control.onrender.com that you can open on your iPad.
+#
+# Strongly recommended for a public URL: set BASIC_AUTH_USER / BASIC_AUTH_PASS
+# (uncomment below) so it is not an open proxy.
+services:
+  - type: web
+    name: cursor-control
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    autoDeploy: true
+    healthCheckPath: /healthz
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      # - key: BASIC_AUTH_USER
+      #   sync: false
+      # - key: BASIC_AUTH_PASS
+      #   sync: false

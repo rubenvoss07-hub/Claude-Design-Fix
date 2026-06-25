@@ -108,6 +108,43 @@ keyboard.
 | --- | --- | --- |
 | `PORT` | `3000` | Port to listen on |
 | `PUBLIC_ORIGIN` | derived from request | Force the origin used when rewriting links (set this if you run behind a reverse proxy / tunnel) |
+| `BASIC_AUTH_USER` / `BASIC_AUTH_PASS` | _unset_ | If both are set, require a username/password (recommended for any public deployment) |
+
+---
+
+## Open it on your iPad (or any phone/tablet)
+
+The app is a small web server, so it has to run *somewhere your iPad can reach*.
+Pick whichever fits:
+
+### A. Same Wi‑Fi as a computer (fastest)
+
+1. On a Mac/PC on the same network, run `npm install && npm start`.
+2. Find that computer's local IP address:
+   - macOS: `ipconfig getifaddr en0`
+   - Windows: `ipconfig` → "IPv4 Address"
+   (looks like `192.168.x.x`)
+3. On the iPad, open Safari and go to `http://<that-ip>:3000`.
+
+Add it to your Home Screen (Share → *Add to Home Screen*) for an app‑like,
+full‑screen experience.
+
+### B. Anywhere, always on (cloud — best for real use)
+
+Deploy it once and open the public HTTPS URL from your iPad on any network:
+
+- **Render** (free, easiest): dashboard → **New + → Blueprint** → connect this
+  repo → deploy. It uses the included `render.yaml` and gives you a URL like
+  `https://cursor-control.onrender.com`.
+- **Anything that runs Docker** (Fly.io, Railway, a VPS…): the included
+  `Dockerfile` works as‑is.
+
+Because a public URL is an **open proxy**, set `BASIC_AUTH_USER` and
+`BASIC_AUTH_PASS` (env vars) so only you can use it. Safari will ask for the
+login once and remember it.
+
+> Tip: a cloud host serves over **HTTPS**, which Safari and many target sites
+> prefer — so option B tends to load more sites than a plain‑HTTP LAN setup.
 
 ---
 
